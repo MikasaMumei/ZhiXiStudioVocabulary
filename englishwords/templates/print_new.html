@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="eyebrow">准备课堂资料</div>
+<h1>{{ '设置排版' if preview else '选择打印范围' }}</h1>
+<ol class="print-steps" aria-label="制作步骤"><li class="{{ 'complete' if preview else 'current' }}">1 <span>选择词汇</span></li><li class="{{ 'current' if preview }}">2 <span>设置排版</span></li><li>3 <span>下载 PDF</span></li></ol>
+{% if not preview %}
+<p class="muted">直接勾选单元；勾选书名旁的复选框可选中整本书。支持组合多本书的单元。</p>
+{% if selection_error %}<div class="notice error" role="alert">{{ selection_error }}</div>{% endif %}
+{% if not picker %}
+<div class="panel empty"><h2>先准备一本词表</h2><p>导入或新建词表后，就能按单元制作资料。</p><a class="button primary" href="{{ url_for('web.imports') }}">导入词表</a></div>
+{% else %}
+<form method="post" data-print-picker>
+  {{ csrf() }}
+  <div class="picker-tools"><span>选择书本和单元</span><button type="button" class="small js-only" data-picker-clear>清空选择</button></div>
+  {% for group in picker %}
+  <fieldset class="print-book panel" data-book-picker>
+    <legend class="sr-only">{{ group.book.title }}</legend>
+    <div class="print-book-heading">
+      <label class="check book-toggle js-only"><input type="checkbox" data-book-toggle aria-label="整本选择 {{ group.book.title }}" {{ 'disabled' if not group.count }}><span>整本选择</span></label>
+      <div class="print-book-title"><h2>{{ group.book.title }}</h2><p class="muted">{{ group.book.publisher }} · {{ group.book.edition }} · {{ group.count }} 条</p></div>
+      <span class="tag" data-book-count>未选择</span>
+    </div>
+    <div class="chapter-grid">
+    {% for section in group.sections %}
+      <label class="chapter-choice"><input type="checkbox" name="section_id" value="{{ section.id }}" data-count="{{ section_counts[section.id] }}" {{ 'checked' if section.id in selected_sections }}><span>{{ section.title }}<small>{{ section_counts[section.id] }} 条</small></span></label>
+    {% else %}<p class="muted">这本书暂无可打印的词条。</p>{% endfor %}
+    </div>
+  </fieldset>
+  {% endfor %}
+  <div class="picker-footer panel">
+    <label>限定首字母（可选）<select name="initial"><option value="">全部首字母</option>{% for letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#' %}<option value="{{ letter }}" {{ 'selected' if initial_value==letter }}>{{ letter }}</option>{% endfor %}</select></label>
+    <div class="picker-summary" aria-live="polite" data-picker-summary>请选择单元</div>
+    <button class="primary" data-picker-submit>下一步：设置排版 →</button>
+  </div>
+</form>
+{% endif %}
+{% else %}
+<a class="breadcrumb" href="{{ back_url }}">← 返回调整范围</a>
+<div class="range-summary panel"><strong>本次选择 {{ preview.rows|length }} 条词汇</strong><div class="range-tags">{% for book,section in scopes %}<span class="tag">{{ section }}{% if books|length > 1 %} · {{ book }}{% endif %}</span>{% endfor %}</div><p class="muted">将生成中英对照、看英写中、看中写英三张表，内容和编号保持一致。</p></div>
+{% if preview.missing_us %}<p class="muted">{{ preview.missing_us }} 条音标留空{% if preview.missing_phrase_us %}（其中 {{ preview.missing_phrase_us }} 条为短语）{% endif %}，可以正常生成。</p>{% endif %}
+{% if preview.missing_meaning %}<div class="notice error">{{ preview.missing_meaning }} 条缺少中文释义，请回到词表补充后再生成。</div>{% endif %}
+{% if preview.pending %}<p class="muted">{{ preview.pending }} 条尚未标记人工校对，请使用前核对内容。</p>{% endif %}
+{% if preview.ambiguous %}<details class="panel"><summary>查看相同中文对应的不同英文</summary>{% for m,words in preview.ambiguous.items() %}<p>{{ m }} → {{ words|join(' / ') }}</p>{% endfor %}</details>{% endif %}
+<form action="{{ url_for('web.print_create') }}" method="post" class="panel print-options" data-print-options>
+  {{ csrf() }}<input type="hidden" name="review_token" value="{{ token }}">
+  {% for row in preview.rows %}<input type="hidden" name="item_id" value="{{ row.id }}">{% endfor %}
+  <h2>资料名称与常用设置</h2>
+  <div class="form-grid">
+    <div class="full">{{ field('title','资料标题',default_title) }}</div>
+    <label>字号<select name="size"><option value="compact" selected>紧凑 · 10 pt（省纸）</option><option value="standard">标准 · 12 pt</option><option value="large">大字 · 14 pt</option></select></label>
+    <label>单元分组<select name="grouping"><option value="section">保留教材单元</option><option value="none">合并为连续词表（更省纸）</option><option value="initial">按首字母 A–Z 分组</option></select></label>
+    <label>词条排序<select name="order" data-print-order><option value="original">教材原序</option><option value="alphabetical">A–Z 字母序</option><option value="shuffle">组内打乱（三张表同步）</option></select></label>
+    <label>行距<select name="density"><option value="compact">紧凑（省纸）</option><option value="comfortable">宽松（便于书写）</option></select></label>
+  </div>
+  <h2>三张表的排版</h2>
+  <div class="form-grid">
+    <label>中英对照／看英写中<select name="columns"><option value="2" selected>双栏六列（推荐）</option><option value="1">单栏三列（宽松）</option></select><small>每栏：英语单词｜美音｜释义或中文填写区；每页先从上到下，再向右接排，末页自动均衡。</small></label>
+    <label>看中写英<select name="zh_en_layout"><option value="three">三栏六列：中文｜英文填写（推荐）</option><option value="phonetic">双栏六列：中文｜音标提示｜英文填写</option><option value="wide">单栏两列：中文｜英文填写（宽松）</option></select></label>
+  </div>
+  <details class="advanced-options"><summary>更多选项</summary><div class="form-grid">
+    <label class="check"><input type="checkbox" name="break_sections" data-break-sections>每组另起一页（增加用纸）</label>
+    <label class="check"><input type="checkbox" name="examples">中英对照显示例句</label>
+    <label class="check"><input type="checkbox" name="dedupe">相同英文只保留第一次出现</label>
+    <div data-shuffle-seed>{{ field('seed','固定乱序编号（可选，留空自动打乱）') }}</div>
+  </div></details>
+  {% if preview.duplicates %}<details class="duplicate-details"><summary>有 {{ preview.removed|length }} 条重复英文，默认全部保留</summary><p class="muted">开启去重后将省略下面这些条目；同词在不同单元可能有不同释义。</p>{% for row in preview.removed %}<p>{{ row.spelling }} · {{ row.section }} · {{ row.meaning }}</p>{% endfor %}</details>{% endif %}
+  <div class="actions print-submit"><button class="primary" {{ 'disabled' if preview.missing_meaning }}>生成三张表 →</button><span class="muted">生成后可分别下载 PDF，也可打包下载。</span></div>
+</form>
+<details class="panel"><summary>核对本次 {{ preview.rows|length }} 条内容</summary><div class="table-scroll"><table><thead><tr><th>英文</th><th>美音</th><th>中文义</th><th>单元</th></tr></thead><tbody>{% for row in preview.rows %}<tr><td>{{ row.spelling }}</td><td>{{ row.us }}</td><td>{{ row.meaning }}</td><td>{{ row.section }}</td></tr>{% endfor %}</tbody></table></div></details>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,30 @@
+# Local environments, runtime configuration, credentials and caches
+.venv/
+.qa-venv/
+.env
+.env.*
+!.env.example
+.local/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.py[cod]
+.DS_Store
+*.pem
+*.key
+*.p12
+
+# Private teaching data, backups and generated output
+data/
+backups/
+private/
+output/
+outputs/
+*.dump
+*.sqlite*
+*.xlsx
+*.xls
+*.pdf
+*.zip
+*.tar
+*.gz

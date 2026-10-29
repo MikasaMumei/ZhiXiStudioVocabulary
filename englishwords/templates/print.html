@@ -1,0 +1,15 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{{ snapshot.title }} · {{ mode_title }}</title><style>{{ css|safe }}</style></head>
+{% set hint = mode=='zh-en' and options.zh_en_layout=='phonetic' %}
+{% set pairs = (3 if options.zh_en_layout=='three' else 2 if hint else 1) if mode=='zh-en' else options.columns|int %}
+{% set fields = 2 if mode=='zh-en' and not hint else 3 %}
+{% set widths = [45,55] if fields==2 else [44,27,29] if mode=='en-zh' else [40,27,33] %}
+<body class="{{ options.size }} {{ options.density }} groups-{{ pairs }} fields-{{ fields }}" data-layout="shared-grid" data-columns="{{ pairs }}" data-fields="{{ fields }}" data-widths="{{ widths|join(',') }}" data-break-sections="{{ 1 if options.break_sections else 0 }}">
+<header><p class="brand-line">智习工作室词表 · ZhiXi Studio Vocabulary</p><h1>{{ snapshot.title }}</h1><p class="metadata">{{ mode_title }}{{ ' · 音标提示练习' if hint }} · {{ rows|length }} 条 · 版本 {{ snapshot.id[:8] }} · {{ {'original':'原序','alphabetical':'字母序','shuffle':'乱序'}[options.order] }}</p>{% if mode in ['zh-en','en-zh'] %}<p class="student-name">姓名 ____________________　 日期 ____________________</p>{% endif %}</header>
+{% macro cells(row) %}
+{% if row %}
+{% if mode=='study' %}<td class="word"><span class="number">{{ row.number }}.</span> {{ row.spelling }}</td><td class="ipa">{{ row.us }}</td><td class="definition group-end">{% if row.pos %}<span class="pos">{{ row.pos }}</span> {% endif %}{{ row.meaning }}{% if options.examples and row.example %}<p class="example">{{ row.example }}{% if row.example_zh %}<br>{{ row.example_zh }}{% endif %}</p>{% endif %}</td>
+{% elif mode=='en-zh' %}<td class="word"><span class="number">{{ row.number }}.</span> {{ row.spelling }}</td><td class="ipa">{{ row.us }}</td><td class="writing-line group-end"></td>
+{% else %}<td class="prompt"><span class="number">{{ row.number }}.</span> {% if row.pos %}<span class="pos">{{ row.pos }}</span> {% endif %}{{ row.meaning }}</td>{% if hint %}<td class="ipa">{{ row.us }}</td>{% endif %}<td class="writing-line group-end"></td>{% endif %}
+{% else %}<td class="empty-slot" colspan="{{ fields }}"></td>{% endif %}
+{% endmacro %}
+{% for group in groups %}<section data-group="{{ loop.index0 }}" class="word-group {{ 'page-break' if options.break_sections and not loop.first }}"><h2>{{ group.label }}</h2><div class="column-flow"><table class="vocabulary"><colgroup>{% for width in widths %}<col style="width:{{ width }}%">{% endfor %}</colgroup><thead><tr>{% if mode=='study' %}<th>英语单词</th><th>美式音标</th><th class="group-end">中文释义</th>{% elif mode=='en-zh' %}<th>英语单词</th><th>美式音标</th><th class="group-end">中文释义（填写）</th>{% else %}<th>中文释义</th>{% if hint %}<th>美式音标</th>{% endif %}<th class="group-end">英语单词（填写）</th>{% endif %}</tr></thead><tbody>{% for row in group.rows %}<tr data-number="{{ row.number }}">{{ cells(row) }}</tr>{% endfor %}</tbody></table></div></section>{% endfor %}</body></html>

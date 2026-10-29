@@ -1,0 +1,8 @@
+*
+!requirements.txt
+!englishwords
+!englishwords/**
+!migrations
+!migrations/**
+!alembic.ini
+**/__pycache__

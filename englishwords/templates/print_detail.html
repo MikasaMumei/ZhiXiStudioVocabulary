@@ -1,0 +1,13 @@
+{% extends 'base.html' %}{% block content %}
+<a class="breadcrumb" href="{{ url_for('web.prints',state='trash' if job.deleted_at else 'active') }}">← {{ '回收站' if job.deleted_at else '打印资料' }}</a>
+<div class="page-heading"><div><div class="eyebrow">{{ '已删除' if job.deleted_at else '已生成' }} · {{ job.id[:8] }}</div><h1>{{ job.title }}</h1><p class="muted">{{ job.snapshot.rows|length }} 条 · {{ job.created_at|local_datetime }} · 内容与编号已冻结</p></div>{% if not job.deleted_at %}<a class="button primary" href="{{ url_for('web.print_pdf_bundle',job_id=job.id) }}">↓ 下载全部 PDF（ZIP）</a>{% endif %}</div>
+{% if job.deleted_at %}<div class="notice">这份资料在回收站中。恢复后即可重新下载和打印。</div>
+{% else %}
+{% if job.snapshot.template != '2.3' %}<div class="notice">这份是旧版快照，保留生成时的版式。请重新生成资料，使用先纵向填栏、左右横线对齐的新版排版。</div>{% endif %}
+<div class="print-cards">{% for mode,label in modes.items() %}<div class="panel print-card"><span class="tag">学生用表</span><h2>{{ label }}</h2><div class="actions"><a class="button primary" href="{{ url_for('web.print_pdf',job_id=job.id,mode=mode) }}">↓ 下载 PDF</a><a class="button" target="_blank" rel="noopener" href="{{ url_for('web.print_pdf',job_id=job.id,mode=mode,preview='1') }}">预览 PDF ↗</a></div></div>{% endfor %}</div>
+<div class="notice">PDF 自带字体，可直接打印或永久保存。中英对照可用于核对两种练习。生成大份资料可能需要等待片刻。</div>
+<details class="panel"><summary>修改显示名称</summary><form method="post" action="{{ url_for('web.print_rename',job_id=job.id) }}">{{ csrf() }}<input type="hidden" name="revision" value="{{ job.management_revision }}"><label>资料名称<input name="title" value="{{ job.title }}" maxlength="200" required></label><p class="muted">仅修改列表和详情页的名称。PDF 标题及内容保留生成时的版本；如需更改，请重新生成。</p><button>保存名称</button></form></details>
+<details class="panel"><summary>版本信息与原始网页归档</summary><p>模板 {{ job.snapshot.template }} · 乱序种子 {{ job.snapshot.options.seed }}</p><p class="muted checksum">校验值 {{ job.checksum }}</p><p>HTML 是内容源稿归档；正式打印请使用 PDF。历史资料保留原版。</p><a class="button" href="{{ url_for('web.print_download',job_id=job.id) }}">下载 HTML 内容归档（含字体）</a></details>
+{% endif %}
+<form class="panel" method="post" action="{{ url_for('web.print_manage') }}">{{ csrf() }}<input type="hidden" name="job_id" value="{{ job.id }}"><input type="hidden" name="revision_{{ job.id }}" value="{{ job.management_revision }}"><input type="hidden" name="action" value="{{ 'restore' if job.deleted_at else 'delete' }}"><h2>{{ '恢复资料' if job.deleted_at else '删除资料' }}</h2><p class="muted">{{ '恢复原有内容和下载入口。' if job.deleted_at else '移到回收站，可随时恢复；不会删除原词库。' }}</p><button class="{{ 'primary' if job.deleted_at else 'danger' }}">{{ '恢复这份资料' if job.deleted_at else '删除这份资料' }}</button></form>
+{% endblock %}

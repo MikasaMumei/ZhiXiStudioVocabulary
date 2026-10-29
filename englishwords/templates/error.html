@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<div class="panel narrow"><div class="eyebrow">{{ error.code }}</div><h1>这一步还没有完成</h1><p>{{ error.description }}</p><a class="button" href="{{ url_for('web.home') }}">返回书本词表</a></div>{% endblock %}

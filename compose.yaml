@@ -1,0 +1,40 @@
+name: englishwords
+services:
+  db:
+    image: postgres:18.6-bookworm@sha256:bbf83594798e144bff365a9c191c5d779f181fb3135902064ab8ff11918020fc
+    environment:
+      POSTGRES_DB: englishwords
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_ADMIN_PASSWORD:?请设置管理密码}
+      ENGLISHWORDS_DB_PASSWORD: ${DB_PASSWORD:?请设置应用数据库密码}
+    volumes:
+      - postgres-data:/var/lib/postgresql
+      - ./deploy/init-db.sh:/docker-entrypoint-initdb.d/10-englishwords.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d englishwords"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+    mem_limit: 512m
+  web:
+    build: .
+    environment:
+      DATABASE_URL: postgresql+psycopg://englishwords_app:${DB_PASSWORD:?请设置应用数据库密码}@db:5432/englishwords
+      SECRET_KEY: ${SECRET_KEY:?请设置会话密钥}
+      ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH:?请设置管理员密码哈希}
+      COOKIE_SECURE: ${COOKIE_SECURE:-0}
+    ports:
+      - ${WEB_BIND_IP:-127.0.0.1}:${WEB_PORT:-8088}:8000
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    mem_limit: 512m
+volumes:
+  postgres-data:

@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% block content %}
+<a class="breadcrumb" href="{{ url_for('web.prints',state='trash' if action=='restore' else 'active') }}">← 返回资料列表</a>
+<div class="panel narrow"><h1>{{ '恢复' if action=='restore' else '删除' }} {{ jobs|length }} 份资料？</h1><p>{{ '恢复后可重新下载和打印，内容保持原样。' if action=='restore' else '资料将移到回收站，可随时恢复。已经下载到电脑的 PDF 和原词库不受影响。' }}</p>
+<ul class="print-confirm-list">{% for job in jobs %}<li><strong>{{ job.title }}</strong><small>{{ job.snapshot.rows|length }} 条 · {{ job.created_at|local_datetime }}</small></li>{% endfor %}</ul>
+<form method="post" action="{{ url_for('web.print_manage') }}">{{ csrf() }}<input type="hidden" name="action" value="{{ action }}"><input type="hidden" name="phase" value="apply">{% for job in jobs %}<input type="hidden" name="job_id" value="{{ job.id }}"><input type="hidden" name="revision_{{ job.id }}" value="{{ job.management_revision }}">{% endfor %}<div class="actions"><button class="{{ 'primary' if action=='restore' else 'danger' }}">{{ '确认恢复' if action=='restore' else '确认移到回收站' }}</button><a class="button" href="{{ url_for('web.prints',state='trash' if action=='restore' else 'active') }}">取消</a></div></form></div>
+{% endblock %}

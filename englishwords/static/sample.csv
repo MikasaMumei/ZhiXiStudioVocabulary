@@ -1,0 +1,41 @@
+书本编号,书名,学段,年级,教材版本,单元,顺序,单词,美音,中文释义,词性,例句,例句翻译
+demo-primary,小学词汇原创示例,小学,通用,原创示例（非教材）,生活词汇,1,apple,/ˈæpəl/,苹果,n.,I have an apple.,我有一个苹果。
+demo-primary,小学词汇原创示例,小学,通用,原创示例（非教材）,生活词汇,2,book,/bʊk/,书,n.,This is my book.,这是我的书。
+demo-primary,小学词汇原创示例,小学,通用,原创示例（非教材）,生活词汇,3,cat,/kæt/,猫,n.,The cat is small.,这只猫很小。
+demo-primary,小学词汇原创示例,小学,通用,原创示例（非教材）,生活词汇,4,dog,/dɔɡ/,狗,n.,The dog can run.,这只狗会跑。
+demo-primary,小学词汇原创示例,小学,通用,原创示例（非教材）,生活词汇,5,desk,/desk/,书桌,n.,My book is on the desk.,我的书在书桌上。
+demo-primary,小学词汇原创示例,小学,通用,原创示例（非教材）,生活词汇,6,pen,/pen/,钢笔,n.,This pen is blue.,这支钢笔是蓝色的。
+demo-primary,小学词汇原创示例,小学,通用,原创示例（非教材）,颜色与动作,1,blue,/bluː/,蓝色的,adj.,The sky is blue.,天空是蓝色的。
+demo-primary,小学词汇原创示例,小学,通用,原创示例（非教材）,颜色与动作,2,red,/red/,红色的,adj.,I like red.,我喜欢红色。
+demo-primary,小学词汇原创示例,小学,通用,原创示例（非教材）,颜色与动作,3,run,/rʌn/,跑,v.,We run in the park.,我们在公园跑步。
+demo-primary,小学词汇原创示例,小学,通用,原创示例（非教材）,颜色与动作,4,read,/riːd/,阅读,v.,I read every day.,我每天阅读。
+demo-junior,初中词汇原创示例,初中,通用,原创示例（非教材）,学习与生活,1,library,/ˈlaɪbreri/,图书馆,n.,We meet at the library.,我们在图书馆见面。
+demo-junior,初中词汇原创示例,初中,通用,原创示例（非教材）,学习与生活,2,practice,/ˈpræktɪs/,练习,v.,Practice makes progress.,练习带来进步。
+demo-junior,初中词汇原创示例,初中,通用,原创示例（非教材）,学习与生活,3,weather,/ˈweðər/,天气,n.,The weather is nice.,天气很好。
+demo-junior,初中词汇原创示例,初中,通用,原创示例（非教材）,学习与生活,4,borrow,/ˈbɑːroʊ/,借入,v.,May I borrow your pen?,我可以借你的钢笔吗？
+demo-junior,初中词汇原创示例,初中,通用,原创示例（非教材）,学习与生活,5,carefully,/ˈkerfəli/,仔细地,adv.,Please read carefully.,请仔细阅读。
+demo-junior,初中词汇原创示例,初中,通用,原创示例（非教材）,短语与表达,1,take care of,,照顾,phrase,We take care of the cat.,我们照顾这只猫。
+demo-junior,初中词汇原创示例,初中,通用,原创示例（非教材）,短语与表达,2,look forward to,,期待,phrase,I look forward to the trip.,我期待这次旅行。
+demo-junior,初中词汇原创示例,初中,通用,原创示例（非教材）,短语与表达,3,at the same time,,同时,phrase,They arrived at the same time.,他们同时到达。
+demo-junior,初中词汇原创示例,初中,通用,原创示例（非教材）,短语与表达,4,have a good time,,玩得愉快,phrase,Have a good time today!,今天玩得愉快！
+demo-junior,初中词汇原创示例,初中,通用,原创示例（非教材）,短语与表达,5,make a difference,,产生影响,phrase,Small actions make a difference.,小小的行动会产生影响。
+demo-senior,高中词汇原创示例,高中,通用,原创示例（非教材）,交流与思考,1,communicate,/kəˈmjuːnɪkeɪt/,交流,v.,We communicate in English.,我们用英语交流。
+demo-senior,高中词汇原创示例,高中,通用,原创示例（非教材）,交流与思考,2,responsibility,/rɪˌspɑːnsəˈbɪləti/,责任,n.,Everyone has a responsibility.,每个人都有一份责任。
+demo-senior,高中词汇原创示例,高中,通用,原创示例（非教材）,交流与思考,3,independent,/ˌɪndɪˈpendənt/,独立的,adj.,She is an independent learner.,她是一位独立的学习者。
+demo-senior,高中词汇原创示例,高中,通用,原创示例（非教材）,交流与思考,4,opportunity,/ˌɑːpərˈtuːnəti/,机会,n.,This is a new opportunity.,这是一个新机会。
+demo-senior,高中词汇原创示例,高中,通用,原创示例（非教材）,交流与思考,5,perspective,/pərˈspektɪv/,观点；观察问题的角度,n.,Try a different perspective.,尝试一个不同的角度。
+demo-senior,高中词汇原创示例,高中,通用,原创示例（非教材）,课程义与词形,1,book,/bʊk/,预订,v.,We need to book a room.,我们需要预订一个房间。
+demo-senior,高中词汇原创示例,高中,通用,原创示例（非教材）,课程义与词形,2,read,/red/,阅读（过去式）,v.,I read that book yesterday.,我昨天读了那本书。
+demo-senior,高中词汇原创示例,高中,通用,原创示例（非教材）,课程义与词形,3,well-being,,身心健康,n.,Sleep supports well-being.,睡眠有益于身心健康。
+demo-senior,高中词汇原创示例,高中,通用,原创示例（非教材）,课程义与词形,4,US,,美国,abbr.,He returned to the US.,他返回了美国。
+demo-senior,高中词汇原创示例,高中,通用,原创示例（非教材）,课程义与词形,5,us,/ʌs/,我们（宾格）,pron.,Please help us.,请帮助我们。
+demo-review,校对练习原创示例,自编,通用,原创示例（非教材）,保留词形,1,Polish,/ˈpoʊlɪʃ/,波兰的,adj.,She studies Polish history.,她研究波兰历史。
+demo-review,校对练习原创示例,自编,通用,原创示例（非教材）,保留词形,2,polish,/ˈpɑːlɪʃ/,擦亮,v.,Please polish the shoes.,请擦亮这些鞋。
+demo-review,校对练习原创示例,自编,通用,原创示例（非教材）,保留词形,3,went,/went/,去（go 的过去式）,v.,We went home.,我们回家了。
+demo-review,校对练习原创示例,自编,通用,原创示例（非教材）,保留词形,4,children,/ˈtʃɪldrən/,儿童（child 的复数）,n.,The children are reading.,孩子们正在阅读。
+demo-review,校对练习原创示例,自编,通用,原创示例（非教材）,保留词形,5,Good morning!,,早上好！,expression,Good morning! Welcome back.,早上好！欢迎回来。
+demo-review,校对练习原创示例,自编,通用,原创示例（非教材）,待校对演示,1,notice,/ˈnoʊtɪs/,注意到,v.,Did you notice the sign?,你注意到标志了吗？
+demo-review,校对练习原创示例,自编,通用,原创示例（非教材）,待校对演示,2,observe,/əbˈzɜːrv/,注意到,v.,Observe what happens next.,注意观察接下来发生什么。
+demo-review,校对练习原创示例,自编,通用,原创示例（非教材）,待校对演示,3,unfinished,,,,,
+demo-review,校对练习原创示例,自编,通用,原创示例（非教材）,待校对演示,4,be interested in,,对……感兴趣,phrase,I am interested in science.,我对科学感兴趣。
+demo-review,校对练习原创示例,自编,通用,原创示例（非教材）,待校对演示,5,mother-in-law,,岳母；婆婆,n.,Her mother-in-law is kind.,她的婆婆很和善。
